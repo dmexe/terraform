@@ -40,6 +40,10 @@ func Provider() terraform.ResourceProvider {
 			"github_repository_collaborator": resourceGithubRepositoryCollaborator(),
 		},
 
+		DataSourcesMap: map[string]*schema.Resource{
+			"github_pull_requests": dataSourceGithubPullRequests(),
+		},
+
 		ConfigureFunc: providerConfigure,
 	}
 }

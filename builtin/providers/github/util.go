@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
+	"regexp"
 )
 
 func toGithubID(id string) int {
@@ -44,4 +45,15 @@ func parseTwoPartID(id string) (string, string) {
 // format the strings into an id `a:b`
 func buildTwoPartID(a, b *string) string {
 	return fmt.Sprintf("%s:%s", *a, *b)
+}
+
+func validateRegexp(v interface{}, k string) (ws []string, errors []error) {
+	value := v.(string)
+
+	if _, err := regexp.Compile(value); err != nil {
+		errors = append(errors, fmt.Errorf(
+			"%q contains an invalid regular expression: %s",
+			k, err))
+	}
+	return
 }
